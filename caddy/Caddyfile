@@ -1,0 +1,48 @@
+sonarr.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:8989
+}
+
+radarr.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:7878
+}
+
+prowlarr.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:9696
+}
+
+qbittorrent.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:8080
+}
+
+jellyfin.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:8096
+}
+
+plex.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:32400
+}
+
+nextcloud.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:8089
+}
+
+bindery.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:5050
+}
+
+audiobookshelf.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:13378
+}
+
+immich.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:2283
+}
+
+home.YOUR_DOMAIN.org {
+    reverse_proxy SERVER_IP:3000
+}
+
+# Landing page for the root domain
+YOUR_DOMAIN.org {
+    respond "Media Server – use subdomains: sonarr, radarr, prowlarr, qbittorrent, jellyfin, nextcloud, bindery, audiobookshelf"
+}

@@ -1,0 +1,4 @@
+[[roles]]
+name = "port-forward"
+routes = ["GET /v1/portforward"]
+auth = "none"

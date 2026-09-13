@@ -1,0 +1,10 @@
+title: Home Server
+language: en
+theme: dark
+layout:
+  Media:
+    style: row
+    columns: 4
+  Automation:
+    style: row
+    columns: 3
