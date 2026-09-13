@@ -2,7 +2,8 @@
 
 A self-hosted media server and homelab demonstrating Docker orchestration, VPN networking, reverse proxy configuration, and automated media management. **23 containers** orchestrated via Docker Compose.
 
----
+<img width="1760" height="560" alt="image" src="https://github.com/user-attachments/assets/e2d1b327-e655-4f4c-b593-0a4a91430d9a" />
+
 
 ## Architecture Overview
 
