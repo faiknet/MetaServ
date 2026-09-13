@@ -1,50 +1,40 @@
-# Home Server
+# MetaServ Home Server
 
 A self-hosted media server and homelab demonstrating Docker orchestration, VPN networking, reverse proxy configuration, and automated media management. **23 containers** orchestrated via Docker Compose.
-
-![Docker Compose](https://img.shields.io/badge/Docker--Compose-23%20containers-blue)
-![Architecture](https://img.shields.io/badge/Network-3%20Docker%20networks-lightgrey)
-![Reverse Proxy](https://img.shields.io/badge/Proxy-Caddy%20%2B%20Let's%20Encrypt-lightgrey)
-
-> **This is a portfolio demonstration of DevOps and system administration skills. All configuration values, IPs, and credentials in this README are placeholders.**
 
 ---
 
 ## Architecture Overview
 
-```
-                        ┌──────────────────────────────────────────┐
-                        │              Internet                     │
-                        └─────────────────┬────────────────────────┘
-                                          │
-                        ┌─────────────────▼────────────────────────┐
-                        │        DNS Subdomain (yourdomain.org) │
-                        └─────────────────┬────────────────────────┘
-                                          │
-                        ┌─────────────────▼────────────────────────┐
-                        │             Caddy                          │
-                        │     (Reverse Proxy + Auto-HTTPS)          │
-                        └──┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──┘
-                           │   │   │   │   │   │   │   │   │   │
-        ┌──────────┐ ┌───┴─┐─┴─┐┌┴──┐┌┴──┐┌┴──┐┌┴──┐┌┴──┐┌┴──┐┌┴──┐
-        │ Sonarr   │ │Radarr│ │Prow│ │QB  │ │Plex│ │Jelly│     │
-        │ (VPN)    │ │(VPN) │ │larr│ │itt │ │host│ │fin │     │
-        └──────────┘ └──────┘ └────┘└────┘└────┘└─────┘     │
-                           │   │   │   │                      │
-        ┌──────────┐ ┌───┴─┐─┴─┐┌┴──┐┌┴────┐                │
-        │ Bindery  │ │Audb │ │Nxt│ │Wg-  │                │
-        │ (VPN)    │ │ooks │ │cl │ │easy │                │
-        └──────────┘ │helf │ │   │ │(VPN)│                │
-                     └─────┘ └───┘ └─────┘                │
-                                                          │
-        ┌──────────────────────────┐                      │
-        │    Homepage Dashboard    │◄─────────────────────┘
-        │   (Docker socket info)   │
-        └──────────────────────────┘
-
-        ┌──────────────────────────┐
-        │     Immich (Photos)      │ ← separate stack (4 containers)
-        └──────────────────────────┘
+```mermaid
+graph TD
+    Internet[" Internet"]
+    DNS["DNS Subdomain\n(yourdomain.org)"]
+    Caddy["Caddy\n(Reverse Proxy + Auto-HTTPS)"]
+    Internet --> DNS --> Caddy
+    Caddy --> Sonarr["Sonarr\n VPN"]
+    Caddy --> Radarr["Radarr\n VPN"]
+    Caddy --> Prowlarr["Prowlarr"]
+    Caddy --> QB["QBittorrent"]
+    Caddy --> Plex["Plex"]
+    Caddy --> Jellyfin["Jellyfin"]
+    Caddy --> Bindery["Bindery\n VPN"]
+    Caddy --> Audiobookshelf["Audiobookshelf"]
+    Caddy --> Nextcloud["Nextcloud"]
+    Caddy --> WgEasy["Wg-easy\n VPN"]
+    Sonarr -.-> Homepage
+    Radarr -.-> Homepage
+    Prowlarr -.-> Homepage
+    QB -.-> Homepage
+    Plex -.-> Homepage
+    Jellyfin -.-> Homepage
+    Bindery -.-> Homepage
+    Audiobookshelf -.-> Homepage
+    Nextcloud -.-> Homepage
+    WgEasy -.-> Homepage
+    Homepage["Homepage Dashboard\n(Docker socket info)"]
+    Homepage ~~~ Immich
+    Immich["Immich - Photos\n(separate stack, 4 containers)"]
 ```
 
 ---
@@ -291,7 +281,6 @@ This starts 4 containers: `immich_server`, `immich_postgres`, `immich_redis`, `i
 - WireGuard provides encrypted remote access
 - Plex media volumes are mounted read-only where possible
 - `.env` and `services.yaml` (with API keys) are excluded from version control
-- The `.gitignore` enforces exclusion of all secrets, personal data, and media files
 
 ---
 
@@ -313,8 +302,7 @@ This starts 4 containers: `immich_server`, `immich_postgres`, `immich_redis`, `i
 │   │     ├── proxmox.yaml   # (commented out)
 │   │     ├── kubernetes.yaml
 │   │     └── custom.js/css
-│   └── caddy/                 # Caddy runtime (data excluded via .gitignore)
-├── .gitignore                 # Excludes secrets, data, and personal files
+│   └── caddy/                 # Caddy runtime 
 └── README.md                  # This file
 ```
 
